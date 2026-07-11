@@ -144,6 +144,36 @@ func writeError(w http.ResponseWriter, statusCode int, message string) {
 	json.NewEncoder(w).Encode(ErrorResponse{Error: message})
 }
 
+// SearchAddresses handles GET /v2/addresses/search.
+func (h *Handler) SearchAddresses(w http.ResponseWriter, r *http.Request) {
+	street := r.URL.Query().Get("street")
+	country := r.URL.Query().Get("country")
+	state := r.URL.Query().Get("state")
+
+	mockResponse := map[string]interface{}{
+		"street":  street,
+		"country": country,
+		"state":   state,
+		"results": []map[string]interface{}{
+			{
+				"id":         "550e8400-e29b-41d4-a716-446655440000",
+				"street":     street,
+				"city":       "New York",
+				"state":      state,
+				"zip":        "10001",
+				"country":    country,
+				"created_at": "2026-07-11T12:00:00Z",
+				"updated_at": "2026-07-11T12:00:00Z",
+			},
+		},
+		"count": 1,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(mockResponse)
+}
+
 // Health is a simple health check endpoint.
 func (h *Handler) Health(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")

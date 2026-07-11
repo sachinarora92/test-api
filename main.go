@@ -47,6 +47,11 @@ func setupRouter(h *Handler) *chi.Mux {
 		r.Delete("/{id}", h.DeleteAddress)
 	})
 
+	// V2 routes
+	r.Route("/v2/addresses", func(r chi.Router) {
+		r.Get("/search", h.SearchAddresses)
+	})
+
 	return r
 }
 
