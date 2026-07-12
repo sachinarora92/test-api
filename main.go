@@ -52,6 +52,11 @@ func setupRouter(h *Handler) *chi.Mux {
 		r.Get("/search", h.SearchAddresses)
 	})
 
+	// V3 routes
+	r.Route("/v3/addresses", func(r chi.Router) {
+		r.Get("/search/state", h.SearchStateAddresses)
+	})
+
 	return r
 }
 

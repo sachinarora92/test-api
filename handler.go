@@ -174,6 +174,32 @@ func (h *Handler) SearchAddresses(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(mockResponse)
 }
 
+// SearchStateAddresses handles GET /v3/addresses/search/state.
+func (h *Handler) SearchStateAddresses(w http.ResponseWriter, r *http.Request) {
+	state := r.URL.Query().Get("state")
+
+	mockResponse := map[string]interface{}{
+		"state": state,
+		"results": []map[string]interface{}{
+			{
+				"id":         "660e8400-e29b-41d4-a716-446655440001",
+				"street":     "123 Main St",
+				"city":       "Boston",
+				"state":      state,
+				"zip":        "02101",
+				"country":    "USA",
+				"created_at": "2026-07-12T10:00:00Z",
+				"updated_at": "2026-07-12T10:00:00Z",
+			},
+		},
+		"count": 1,
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(mockResponse)
+}
+
 // Health is a simple health check endpoint.
 func (h *Handler) Health(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
